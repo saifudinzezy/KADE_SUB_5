@@ -2,7 +2,6 @@ package com.example.myapplication.ui
 
 import android.os.Bundle
 import android.view.View
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
 import com.example.myapplication.helper.Config
@@ -11,6 +10,9 @@ import com.example.myapplication.model.LeaguesItem
 import com.example.myapplication.model.ResponseDetailLiga
 import com.example.myapplication.services.ApiClient
 import com.example.myapplication.services.ApiInterface
+import com.example.myapplication.ui.nextprev.NextActivity
+import com.example.myapplication.ui.nextprev.PrevActivity
+import com.example.myapplication.ui.search.SearchActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_scrolling.*
 import kotlinx.android.synthetic.main.content_scrolling.*
@@ -19,7 +21,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ScrollingActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +38,14 @@ class ScrollingActivity : AppCompatActivity() {
 
         val apiInterface: ApiInterface = ApiClient.getClient().create(ApiInterface::class.java)
         getDetailLiga(apiInterface, football.id)
+
+        next.setOnClickListener {
+            startActivity(intentFor<NextActivity>(Config.KEY_FOOTBALL to football.id))
+        }
+
+        prev.setOnClickListener {
+            startActivity(intentFor<PrevActivity>(Config.KEY_FOOTBALL to football.id))
+        }
     }
 
     fun getDetailLiga(apiInterface: ApiInterface, idLiga: String) {

@@ -1,4 +1,4 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.search
 
 import android.os.Bundle
 import android.util.Log
@@ -9,23 +9,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.adapter.AdapterPertandingan
 import com.example.myapplication.model.EventItem
-import com.example.myapplication.model.LeaguesItem
 import com.example.myapplication.model.ResponsePencarianPertandingan
 import com.example.myapplication.services.ApiClient
 import com.example.myapplication.services.ApiInterface
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_scrolling.*
 import kotlinx.android.synthetic.main.activity_search.*
-import kotlinx.android.synthetic.main.content_scrolling.*
-import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
-import kotlin.math.log
 
 class SearchActivity : AppCompatActivity() {
-    private lateinit var items: List<EventItem>
+    private lateinit var items: ArrayList<EventItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +29,8 @@ class SearchActivity : AppCompatActivity() {
 
         val apiInterface: ApiInterface = ApiClient.getClient().create(ApiInterface::class.java)
         btnCari.setOnClickListener { view ->
+            getQuery(apiInterface, edQuery.text.toString())
         }
-        getQuery(apiInterface, "mu")
     }
 
     fun getQuery(apiInterface: ApiInterface, query: String) {
@@ -53,10 +46,12 @@ class SearchActivity : AppCompatActivity() {
                 call: Call<ResponsePencarianPertandingan>,
                 response: Response<ResponsePencarianPertandingan>
             ) {
-                pb.visibility = View.GONE
+                loading.visibility = View.GONE
                 try {
-                    items = response!!.body()!!.event
-                    rv.adapter = AdapterPertandingan(this@SearchActivity, items) {}
+                    items = response!!.body()!!.event as ArrayList<EventItem>
+                    rv.adapter = AdapterPertandingan(this@SearchActivity, items) {
+//                        Toast.makeText(this@SearchActivity, "error " + items, Toast.LENGTH_SHORT)
+                    }
                 } catch (err: Exception) {
                     Log.e("Error", err.printStackTrace().toString())
                     Toast.makeText(this@SearchActivity, "error " + err.message, Toast.LENGTH_SHORT)

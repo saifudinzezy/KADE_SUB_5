@@ -6,18 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
-import com.example.myapplication.model.EventItem
+import com.example.myapplication.model.EventsItem
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.cari_list.*
+import kotlinx.android.synthetic.main.nextprev_list.*
+import kotlinx.android.synthetic.main.nextprev_list.view.*
 
-class AdapterPertandingan(
+class AdapterNextPrev(
     private val context: Context,
-    private val items: List<EventItem>,
-    private val listener: (EventItem) -> Unit
-) : RecyclerView.Adapter<AdapterPertandingan.ViewHolder>() {
+    private val items: List<EventsItem>,
+    private val listener: (EventsItem) -> Unit
+) : RecyclerView.Adapter<AdapterNextPrev.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(LayoutInflater.from(context).inflate(R.layout.cari_list, parent, false))
+        ViewHolder(LayoutInflater.from(context).inflate(R.layout.nextprev_list, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItem(items[position], listener)
@@ -28,11 +29,10 @@ class AdapterPertandingan(
     //implement layout container untuk binding
     class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
-        fun bindItem(items: EventItem, listener: (EventItem) -> Unit) {
-            val skoring1 = items.intHomeScore?.get(0).toString()
-            val skoring2 = items.intHomeScore?.get(1).toString()
+        fun bindItem(items: EventsItem, listener: (EventsItem) -> Unit) {
             name.text = items.strEvent
-            skor.text = "$skoring1 : $skoring2"
+            date.text = "Tanggal : ${items.dateEvent}"
+            time.text = "Waktu : ${items.strTimeLocal}"
 
             itemView.setOnClickListener { listener(items) }
         }

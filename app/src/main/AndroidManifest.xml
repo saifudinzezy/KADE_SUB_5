@@ -11,12 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.SearchActivity"></activity>
+        <activity android:name=".ui.nextprev.NextActivity"/>
+        <activity android:name=".ui.nextprev.PrevActivity"/>
+        <activity android:name=".ui.search.SearchActivity" />
         <activity
-            android:name=".ui.ScrollingActivity"
+            android:name=".ui.DetailActivity"
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.DetailFootball" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

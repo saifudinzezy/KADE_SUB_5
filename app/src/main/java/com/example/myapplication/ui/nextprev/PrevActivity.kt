@@ -1,0 +1,66 @@
+package com.example.myapplication.ui.nextprev
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myapplication.R
+import com.example.myapplication.adapter.AdapterNextPrev
+import com.example.myapplication.helper.Config
+import com.example.myapplication.model.EventsItem
+import com.example.myapplication.model.ItemFootball
+import com.example.myapplication.model.ResponseNextPrevious
+import com.example.myapplication.services.ApiClient
+import com.example.myapplication.services.ApiInterface
+import kotlinx.android.synthetic.main.activity_next.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
+class PrevActivity : AppCompatActivity() {
+
+    private lateinit var items: ArrayList<EventsItem>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_next)
+        setTitle("Jadwal Pertandingan")
+
+        var value: String = intent.getStringExtra(Config.KEY_FOOTBALL)
+        rv.layoutManager = LinearLayoutManager(this)
+        val apiInterface: ApiInterface = ApiClient.getClient().create(ApiInterface::class.java)
+        getQuery(apiInterface, value)
+    }
+
+    fun getQuery(apiInterface: ApiInterface, query: String) {
+        loading.visibility = View.VISIBLE
+        val call: Call<ResponseNextPrevious> = apiInterface.getPreviousMatch(query)
+
+        call.enqueue(object : Callback<ResponseNextPrevious> {
+            override fun onFailure(call: Call<ResponseNextPrevious>, t: Throwable) {
+                Toast.makeText(this@PrevActivity, "error " + t.message, Toast.LENGTH_SHORT)
+            }
+
+            override fun onResponse(
+                call: Call<ResponseNextPrevious>,
+                response: Response<ResponseNextPrevious>
+            ) {
+                loading.visibility = View.GONE
+                try {
+                    items = response!!.body()!!.events as ArrayList<EventsItem>
+                    rv.adapter = AdapterNextPrev(this@PrevActivity, items) {
+                        //                        Toast.makeText(this@SearchActivity, "error " + items, Toast.LENGTH_SHORT)
+                    }
+                } catch (err: Exception) {
+                    Log.e("Error", err.printStackTrace().toString())
+                    Toast.makeText(this@PrevActivity, "error " + err.message, Toast.LENGTH_SHORT)
+                }
+
+            }
+
+        })
+    }
+
+}

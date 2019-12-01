@@ -2,7 +2,6 @@ package com.example.myapplication.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
@@ -24,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         list.layoutManager = LinearLayoutManager(this)
         list.adapter = AdapterFootball(this, items){
-            startActivity(intentFor<ScrollingActivity>(Config.KEY_FOOTBALL to it))
+            startActivity(intentFor<DetailActivity>(Config.KEY_FOOTBALL to it))
         }
     }
 
