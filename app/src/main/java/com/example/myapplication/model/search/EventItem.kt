@@ -1,10 +1,7 @@
-package com.example.myapplication.model
+package com.example.myapplication.model.search
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 data class EventItem(
 
 	@field:SerializedName("intHomeShots")
@@ -180,4 +177,4 @@ data class EventItem(
 
 	@field:SerializedName("strPoster")
 	val strPoster: String? = null
-): Parcelable
+)

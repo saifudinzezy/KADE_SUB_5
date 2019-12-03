@@ -10,10 +10,11 @@ import com.example.myapplication.R
 import com.example.myapplication.adapter.AdapterNextPrev
 import com.example.myapplication.helper.Config
 import com.example.myapplication.model.EventsItem
-import com.example.myapplication.model.ResponseNextPrevious
+import com.example.myapplication.model.nextprev.ResponseNextPrevious
 import com.example.myapplication.services.ApiClient
 import com.example.myapplication.services.ApiInterface
 import kotlinx.android.synthetic.main.activity_next.*
+import org.jetbrains.anko.intentFor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,9 +48,9 @@ class NextActivity : AppCompatActivity() {
             ) {
                 loading.visibility = View.GONE
                 try {
-                    items = response!!.body()!!.events as ArrayList<EventsItem>
+                    items = response!!.body()!!.events?.filter { it?.strSport == "Soccer" } as ArrayList<EventsItem>
                     rv.adapter = AdapterNextPrev(this@NextActivity, items) {
-                        //                        Toast.makeText(this@SearchActivity, "error " + items, Toast.LENGTH_SHORT)
+                        startActivity(intentFor<DetailPrevNextActivity>(Config.KEY_FOOTBALL to it))
                     }
                 } catch (err: Exception) {
                     Log.e("Error", err.printStackTrace().toString())

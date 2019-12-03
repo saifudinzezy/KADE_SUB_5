@@ -2,8 +2,9 @@ package com.example.myapplication.services
 
 import com.example.myapplication.model.ResponseDetailLiga
 import com.example.myapplication.model.ResponseDetailPetandingan
-import com.example.myapplication.model.ResponseNextPrevious
-import com.example.myapplication.model.ResponsePencarianPertandingan
+import com.example.myapplication.model.nextprev.ResponseNextPrevious
+import com.example.myapplication.model.search.ResponseSearch
+import com.example.myapplication.model.team.ResponseTeam
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -35,5 +36,10 @@ interface ApiInterface {
     //Pencarian pertandingan
     //https://www.thesportsdb.com/api/v1/json/1/searchevents.php?e={query}
     @GET("searchevents.php")
-    fun getPencarianPertandingan(@Query("e") query : String) : Call<ResponsePencarianPertandingan>
+    fun getSearch(@Query("e") query: String) : Call<ResponseSearch>
+
+    //Detail Team
+    // https://www.thesportsdb.com/api/v1/json/1/lookupevent.php?id={idEvent}
+    @GET("lookupteam.php")
+    fun getDetailTeam(@Query("id") idEvent : String) : Call<ResponseTeam>
 }

@@ -1,12 +1,12 @@
-package com.example.myapplication.model
+package com.example.myapplication.model.team
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ResponsePencarianPertandingan(
+data class ResponseTeam(
 
-	@field:SerializedName("event")
-	val event: List<EventItem>
+	@field:SerializedName("teams")
+	val teams: List<TeamsItem>
 ): Parcelable
