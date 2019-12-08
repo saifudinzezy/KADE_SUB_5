@@ -8,11 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.adapter.AdapterSearch
+import com.example.myapplication.helper.Config
 import com.example.myapplication.model.search.EventItem
 import com.example.myapplication.model.search.ResponseSearch
 import com.example.myapplication.services.ApiClient
 import com.example.myapplication.services.ApiInterface
 import kotlinx.android.synthetic.main.activity_search.*
+import org.jetbrains.anko.intentFor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,8 +50,15 @@ class SearchActivity : AppCompatActivity() {
                 loading.visibility = View.GONE
                 try {
                     var items: ArrayList<EventItem>
-                    items = response.body()?.event?.filter { it?.strSport == "Soccer" } as ArrayList<EventItem>
-                    rv.adapter = AdapterSearch(this@SearchActivity, items)
+                    items =
+                        response.body()?.event?.filter { it?.strSport == "Soccer" } as ArrayList<EventItem>
+                    rv.adapter = AdapterSearch(this@SearchActivity, items) {
+                        startActivity(
+                            intentFor<DetailSearchActivity>(
+                                Config.KEY_FOOTBALL to it
+                            )
+                        )
+                    }
                 } catch (err: Exception) {
                     Log.e("Error", err.printStackTrace().toString())
                     Toast.makeText(this@SearchActivity, "error " + err.message, Toast.LENGTH_SHORT)

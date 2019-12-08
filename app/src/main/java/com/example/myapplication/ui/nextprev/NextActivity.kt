@@ -30,7 +30,7 @@ class NextActivity : AppCompatActivity() {
         var value: String = intent.getStringExtra(Config.KEY_FOOTBALL)
         rv.layoutManager = LinearLayoutManager(this)
         val apiInterface: ApiInterface = ApiClient.getClient().create(ApiInterface::class.java)
-            getQuery(apiInterface, value)
+        getQuery(apiInterface, value)
     }
 
     fun getQuery(apiInterface: ApiInterface, query: String) {
@@ -48,7 +48,8 @@ class NextActivity : AppCompatActivity() {
             ) {
                 loading.visibility = View.GONE
                 try {
-                    items = response!!.body()!!.events?.filter { it?.strSport == "Soccer" } as ArrayList<EventsItem>
+                    items =
+                        response!!.body()!!.events?.filter { it?.strSport == "Soccer" } as ArrayList<EventsItem>
                     rv.adapter = AdapterNextPrev(this@NextActivity, items) {
                         startActivity(intentFor<DetailPrevNextActivity>(Config.KEY_FOOTBALL to it))
                     }

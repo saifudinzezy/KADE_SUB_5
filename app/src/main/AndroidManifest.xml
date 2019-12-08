@@ -15,6 +15,7 @@
         <activity android:name=".ui.nextprev.NextActivity" />
         <activity android:name=".ui.nextprev.PrevActivity" />
         <activity android:name=".ui.search.SearchActivity" />
+        <activity android:name=".ui.search.DetailSearchActivity" />
         <activity
             android:name=".ui.DetailActivity"
             android:label="@string/title_activity_scrolling"

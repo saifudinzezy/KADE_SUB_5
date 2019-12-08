@@ -1,13 +1,15 @@
-package com.example.myapplication.ui.nextprev
+package com.example.myapplication.ui.search
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.example.myapplication.R
 import com.example.myapplication.helper.Config
 import com.example.myapplication.model.EventsItem
 import com.example.myapplication.model.ResponseDetailPetandingan
+import com.example.myapplication.model.search.EventItem
 import com.example.myapplication.model.team.ResponseTeam
 import com.example.myapplication.model.team.TeamsItem
 import com.example.myapplication.services.ApiClient
@@ -19,7 +21,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailPrevNextActivity : AppCompatActivity() {
+class DetailSearchActivity : AppCompatActivity() {
     var varOneTeam: TeamsItem? = null
     var varTwoTeam: TeamsItem? = null
 
@@ -28,7 +30,7 @@ class DetailPrevNextActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail_prev_next)
 
         setTitle("Detail Pertandingan")
-        var football: EventsItem = intent.getParcelableExtra(Config.KEY_FOOTBALL)
+        var football: EventItem = intent.getParcelableExtra(Config.KEY_FOOTBALL)
 
         loading.visibility = View.VISIBLE
         val apiInterface: ApiInterface = ApiClient.getClient().create(ApiInterface::class.java)
@@ -56,7 +58,7 @@ class DetailPrevNextActivity : AppCompatActivity() {
 
                 name.setText(football.strEvent)
                 date.setText("Date : " + football.dateEvent)
-                time.setText("Time Local : " + football.strTimeLocal)
+                time.setText("Time Local : " + football.strTime)
                 sport.setText("Sport : " + football.strSport)
                 home.setText("Home Team : " + football.strHomeTeam)
 
