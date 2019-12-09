@@ -13,6 +13,7 @@ import com.example.myapplication.model.EventsItem
 import com.example.myapplication.model.nextprev.ResponseNextPrevious
 import com.example.myapplication.services.ApiClient
 import com.example.myapplication.services.ApiInterface
+import com.example.myapplication.ui.detail.DetailAllActivity
 import kotlinx.android.synthetic.main.activity_next.*
 import org.jetbrains.anko.intentFor
 import retrofit2.Call
@@ -51,7 +52,13 @@ class NextActivity : AppCompatActivity() {
                     items =
                         response!!.body()!!.events?.filter { it?.strSport == "Soccer" } as ArrayList<EventsItem>
                     rv.adapter = AdapterNextPrev(this@NextActivity, items) {
-                        startActivity(intentFor<DetailPrevNextActivity>(Config.KEY_FOOTBALL to it))
+                        startActivity(
+                            intentFor<DetailAllActivity>(
+                                Config.KEY_FOOTBALL to it.idEvent,
+                                Config.KEY_ID_HOME to it.idHomeTeam,
+                                Config.KEY_ID_WAY_TEAM to it.idAwayTeam
+                            )
+                        )
                     }
                 } catch (err: Exception) {
                     Log.e("Error", err.printStackTrace().toString())

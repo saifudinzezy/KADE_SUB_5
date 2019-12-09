@@ -1,7 +1,7 @@
 package com.example.myapplication.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
@@ -9,15 +9,22 @@ import com.example.myapplication.adapter.AdapterFootball
 import com.example.myapplication.helper.Config
 import com.example.myapplication.model.ItemFootball
 import com.example.myapplication.ui.detail.DetailActivity
+import com.example.myapplication.ui.favorite.FavoriteActivity
+import kotlinx.android.synthetic.main.activity_home.*
 import org.jetbrains.anko.intentFor
 
-class MainActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity() {
     private var items: MutableList<ItemFootball> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_home)
+        setSupportActionBar(toolbar)
         setTitle("List Liga")
+
+        fab.setOnClickListener { view ->
+            startActivity(intentFor<FavoriteActivity>())
+        }
 
         val list = findViewById<RecyclerView>(R.id.club_list)
         initData()

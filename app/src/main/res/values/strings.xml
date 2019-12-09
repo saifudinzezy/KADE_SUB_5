@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Football</string>
     <!--    club name-->
     <string-array name="club_name">
         <item>English Premier League</item>
@@ -165,4 +165,6 @@
     <string name="title_activity_tabs">TabsActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="favorites">Favorite</string>
 </resources>

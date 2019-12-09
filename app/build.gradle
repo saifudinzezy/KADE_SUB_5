@@ -39,6 +39,9 @@ dependencies {
     //lib
     // Anko Commons
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
+    implementation "org.jetbrains.anko:anko-design:$anko_version"
+    implementation "org.jetbrains.anko:anko-sqlite:$anko_version"
+
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'

@@ -13,6 +13,7 @@ import com.example.myapplication.model.search.EventItem
 import com.example.myapplication.model.search.ResponseSearch
 import com.example.myapplication.services.ApiClient
 import com.example.myapplication.services.ApiInterface
+import com.example.myapplication.ui.detail.DetailAllActivity
 import kotlinx.android.synthetic.main.activity_search.*
 import org.jetbrains.anko.intentFor
 import retrofit2.Call
@@ -54,8 +55,10 @@ class SearchActivity : AppCompatActivity() {
                         response.body()?.event?.filter { it?.strSport == "Soccer" } as ArrayList<EventItem>
                     rv.adapter = AdapterSearch(this@SearchActivity, items) {
                         startActivity(
-                            intentFor<DetailSearchActivity>(
-                                Config.KEY_FOOTBALL to it
+                            intentFor<DetailAllActivity>(
+                                Config.KEY_FOOTBALL to it.idEvent,
+                                Config.KEY_ID_HOME to it.idHomeTeam,
+                                Config.KEY_ID_WAY_TEAM to it.idAwayTeam
                             )
                         )
                     }
