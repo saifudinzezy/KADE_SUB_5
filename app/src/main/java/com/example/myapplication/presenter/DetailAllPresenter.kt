@@ -11,6 +11,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
+//TODO CTRL + SHIFT + T
 class DetailAllPresenter(private val prevView: DetailAllView,
                          private val apiRepository: ApiRepository,
                          private val gson: Gson,

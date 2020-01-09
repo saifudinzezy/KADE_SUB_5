@@ -1,6 +1,5 @@
 package com.example.football2.api
 
-import android.net.Uri
 import com.example.myapplication.BuildConfig
 
 object TheSportDBApi {
