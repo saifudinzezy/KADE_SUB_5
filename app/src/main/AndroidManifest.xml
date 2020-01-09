@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.nextprev.NextActivity" />
+        <activity android:name=".ui.nextprev.NextPrevActivity" />
         <activity android:name=".ui.nextprev.PrevActivity" />
         <activity android:name=".ui.search.SearchActivity" />
         <activity android:name=".ui.detail.DetailAllActivity" />

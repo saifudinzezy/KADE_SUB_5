@@ -1,9 +1,6 @@
 package com.example.myapplication.ui.nextprev
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.football2.api.ApiRepository
@@ -13,20 +10,14 @@ import com.example.myapplication.R
 import com.example.myapplication.adapter.AdapterNextPrev
 import com.example.myapplication.helper.Config
 import com.example.myapplication.model.EventsItem
-import com.example.myapplication.model.nextprev.ResponseNextPrevious
 import com.example.myapplication.presenter.NextPrevPresenter
-import com.example.myapplication.services.ApiClient
-import com.example.myapplication.services.ApiInterface
 import com.example.myapplication.ui.detail.DetailAllActivity
 import com.example.myapplication.view.NextPrevView
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_next.*
 import org.jetbrains.anko.intentFor
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class PrevActivity : AppCompatActivity(), NextPrevView{
+class NextPrevActivity : AppCompatActivity(), NextPrevView{
     //presenter
     private lateinit var prevPresenter: NextPrevPresenter
 
@@ -37,10 +28,11 @@ class PrevActivity : AppCompatActivity(), NextPrevView{
 
         var value: String = intent.getStringExtra(Config.KEY_FOOTBALL)
         rv.layoutManager = LinearLayoutManager(this)
+
         val request = ApiRepository()
         val gson = Gson()
         prevPresenter = NextPrevPresenter(this, request, gson)
-        prevPresenter.getPreviousMatch(value)
+        prevPresenter.getNextMatch(value)
     }
 
     override fun showLoading() {
@@ -52,7 +44,7 @@ class PrevActivity : AppCompatActivity(), NextPrevView{
     }
 
     override fun showTeamList(data: List<EventsItem>) {
-        rv.adapter = AdapterNextPrev(this@PrevActivity, data) {
+        rv.adapter = AdapterNextPrev(this@NextPrevActivity, data) {
             startActivity(
                 intentFor<DetailAllActivity>(
                     Config.KEY_FOOTBALL to it.idEvent,
