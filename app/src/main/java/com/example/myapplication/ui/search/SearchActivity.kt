@@ -1,9 +1,6 @@
 package com.example.myapplication.ui.search
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.football2.api.ApiRepository
@@ -13,18 +10,12 @@ import com.example.myapplication.R
 import com.example.myapplication.adapter.AdapterSearch
 import com.example.myapplication.helper.Config
 import com.example.myapplication.model.search.EventItem
-import com.example.myapplication.model.search.ResponseSearch
 import com.example.myapplication.presenter.SearchPresenter
-import com.example.myapplication.services.ApiClient
-import com.example.myapplication.services.ApiInterface
 import com.example.myapplication.ui.detail.DetailAllActivity
 import com.example.myapplication.view.SearchView
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_search.*
 import org.jetbrains.anko.intentFor
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SearchActivity : AppCompatActivity(), SearchView{
     //presenter
@@ -64,5 +55,4 @@ class SearchActivity : AppCompatActivity(), SearchView{
             )
         }
     }
-
 }

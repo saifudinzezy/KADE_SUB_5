@@ -1,24 +1,27 @@
 package com.example.myapplication.ui.detail
 
 import android.database.sqlite.SQLiteConstraintException
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.dicoding.kotlinacademy.db.database
+import com.example.football2.api.ApiRepository
 import com.example.football2.db.Favorite
+import com.example.football2.extensions.invisible
+import com.example.football2.extensions.visible
 import com.example.myapplication.R
 import com.example.myapplication.helper.Config
 import com.example.myapplication.model.EventsItem
-import com.example.myapplication.model.ResponseDetailPetandingan
 import com.example.myapplication.model.team.ResponseTeam
 import com.example.myapplication.model.team.TeamsItem
-import com.example.myapplication.services.ApiClient
-import com.example.myapplication.services.ApiInterface
+import com.example.myapplication.presenter.DetailAllPresenter
 import com.example.myapplication.services.DataRepository
+import com.example.myapplication.view.DetailAllView
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail_prev_next.*
 import org.jetbrains.anko.db.classParser
@@ -29,7 +32,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailAllActivity : AppCompatActivity() {
+class DetailAllActivity : AppCompatActivity(), DetailAllView{
+    //presenter
+    private lateinit var presenter: DetailAllPresenter
+    private lateinit var teams: EventsItem
     //menu action menu
     private var menuItem: Menu? = null
     private var isFavorite: Boolean = false
@@ -41,7 +47,6 @@ class DetailAllActivity : AppCompatActivity() {
         setTitle("Detail Pertandingan")
 
         loading.visibility = View.VISIBLE
-        val apiInterface: ApiInterface = ApiClient.getClient().create(ApiInterface::class.java)
 
         Favorite.teamId = intent.getStringExtra(Config.KEY_FOOTBALL) //get id
         Favorite.idHome = intent.getStringExtra(Config.KEY_ID_HOME) //get id
@@ -49,104 +54,12 @@ class DetailAllActivity : AppCompatActivity() {
         //cek state
         favoriteState()
 
-        getDetailLiga(apiInterface, Favorite.teamId)
-        getDetailTeam1(Favorite.idHome)
-        getDetailTeam2(Favorite.idAway)
-    }
-
-    fun getDetailLiga(apiInterface: ApiInterface, idLiga: String) {
-        val call: Call<ResponseDetailPetandingan> = apiInterface.getDetailPertandingan(idLiga)
-
-        call.enqueue(object : Callback<ResponseDetailPetandingan> {
-            override fun onFailure(call: Call<ResponseDetailPetandingan>, t: Throwable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onResponse(
-                call: Call<ResponseDetailPetandingan>,
-                response: Response<ResponseDetailPetandingan>
-            ) {
-                loading.visibility = View.GONE
-                var football: EventsItem
-                football = response.body()?.events?.get(0)!!
-
-                //assigment value to favorite
-                Favorite.teamName = football.strEvent.toString()
-                Favorite.date = football.dateEvent.toString()
-                Favorite.time = football.strTime.toString()
-                Favorite.sport = football.strSport.toString()
-                Favorite.homeTeam = football.strHomeTeam.toString()
-
-                name.setText(Favorite.teamName)
-                date.setText("Date : " + Favorite.date)
-                time.setText("Time Local : " + Favorite.time)
-                sport.setText("Sport : " + Favorite.sport)
-                home.setText("Home Team : " + Favorite.homeTeam)
-
-                //assigment value to favorite
-                Favorite.skor = if(football.intHomeScore == null) "0" else football.intHomeScore+" : "+
-                        if(football.intAwayScore == null) "0" else football.intAwayScore
-                Favorite.goal = if (football.strHomeGoalDetails == null) "-" else football.strHomeGoalDetails.toString()
-                Favorite.redCard = if (football.strHomeRedCards == null) "-" else football.strHomeRedCards.toString()
-                Favorite.yellowCard = if (football.strHomeYellowCards == null) "-" else football.strHomeYellowCards.toString()
-
-                skor.setText(Favorite.skor)
-                goal.setText("Goal : " + Favorite.goal)
-                redCard.setText("Red Card : " + Favorite.redCard)
-                yellowCard.setText("Yellow Card : " + Favorite.yellowCard)
-                oneLeague.setText(football.idHomeTeam.toString())
-            }
-        })
-    }
-
-    fun getDetailTeam1(id: String) {
-        val service = DataRepository.create()
-        service.getDetailTeam(id).enqueue(object : Callback<ResponseTeam> {
-            override fun onFailure(call: Call<ResponseTeam>, t: Throwable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onResponse(call: Call<ResponseTeam>, response: Response<ResponseTeam>) {
-                val team: TeamsItem = response.body()?.teams?.get(0) as TeamsItem
-                //assigment value to favorite
-                Favorite.nameTeam1 = team.strTeam.toString()
-                Favorite.legueTeam1 = team.strLeague.toString()
-                Favorite.countryTeam1 = team.strCountry.toString()
-                Favorite.stadiumTeam1 = team.strStadium.toString()
-                Favorite.imgTeam1 = team.strTeamBadge.toString()
-
-                oneTeam.setText("Team: "+Favorite.nameTeam1)
-                oneLeague.setText("League: "+Favorite.legueTeam1)
-                oneCountry.setText("Country: "+Favorite.countryTeam1)
-                oneStadium.setText("Stadium: "+Favorite.stadiumTeam1)
-                Picasso.get().load(Favorite.imgTeam1).into(imgOne)
-            }
-        })
-    }
-
-    fun getDetailTeam2(id: String) {
-        val service = DataRepository.create()
-        service.getDetailTeam(id).enqueue(object : Callback<ResponseTeam> {
-            override fun onFailure(call: Call<ResponseTeam>, t: Throwable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onResponse(call: Call<ResponseTeam>, response: Response<ResponseTeam>) {
-                val team: TeamsItem = response.body()?.teams?.get(0) as TeamsItem
-                //assigment value to favorite
-                Favorite.nameTeam2 = team.strTeam.toString()
-                Favorite.legueTeam2 = team.strLeague.toString()
-                Favorite.countryTeam2 = team.strCountry.toString()
-                Favorite.stadiumTeam2 = team.strStadium.toString()
-                Favorite.imgTeam2 = team.strTeamBadge.toString()
-
-                twoTeam.setText("Team: "+Favorite.nameTeam2)
-                twoLeague.setText("League: "+Favorite.legueTeam2)
-                twoCountry.setText("Country: "+Favorite.countryTeam2)
-                twoStadium.setText("Stadium: "+Favorite.stadiumTeam2)
-                Picasso.get().load(Favorite.imgTeam2).into(imgTwo)
-            }
-        })
+        val request = ApiRepository()
+        val gson = Gson()
+        presenter = DetailAllPresenter(this, request, gson)
+        presenter.getDetailTeams(Favorite.teamId)
+        presenter.getDetailHome(Favorite.idHome)
+        presenter.getDetailAway(Favorite.idAway)
     }
 
     //menus
@@ -249,5 +162,76 @@ class DetailAllActivity : AppCompatActivity() {
             val favorite = result.parseList(classParser<Favorite>())
             if (!favorite.isEmpty()) isFavorite = true
         }
+    }
+
+    override fun showLoading() {
+        loading.visible()
+    }
+
+    override fun hideLoading() {
+        loading.invisible()
+    }
+
+    override fun showDetailLiga(data: List<EventsItem>) {
+        var football: EventsItem
+        football = data.get(0)
+
+        //assigment value to favorite
+        Favorite.teamName = football.strEvent.toString()
+        Favorite.date = football.dateEvent.toString()
+        Favorite.time = football.strTime.toString()
+        Favorite.sport = football.strSport.toString()
+        Favorite.homeTeam = football.strHomeTeam.toString()
+
+        name.setText(Favorite.teamName)
+        date.setText("Date : " + Favorite.date)
+        time.setText("Time Local : " + Favorite.time)
+        sport.setText("Sport : " + Favorite.sport)
+        home.setText("Home Team : " + Favorite.homeTeam)
+
+        //assigment value to favorite
+        Favorite.skor = if(football.intHomeScore == null) "0" else football.intHomeScore+" : "+
+                if(football.intAwayScore == null) "0" else football.intAwayScore
+        Favorite.goal = if (football.strHomeGoalDetails == null) "-" else football.strHomeGoalDetails.toString()
+        Favorite.redCard = if (football.strHomeRedCards == null) "-" else football.strHomeRedCards.toString()
+        Favorite.yellowCard = if (football.strHomeYellowCards == null) "-" else football.strHomeYellowCards.toString()
+
+        skor.setText(Favorite.skor)
+        goal.setText("Goal : " + Favorite.goal)
+        redCard.setText("Red Card : " + Favorite.redCard)
+        yellowCard.setText("Yellow Card : " + Favorite.yellowCard)
+        oneLeague.setText(football.idHomeTeam.toString())
+    }
+
+    override fun showDetailHome(data: List<TeamsItem>) {
+        val team: TeamsItem = data.get(0)
+        //assigment value to favorite
+        Favorite.nameTeam1 = team.strTeam.toString()
+        Favorite.legueTeam1 = team.strLeague.toString()
+        Favorite.countryTeam1 = team.strCountry.toString()
+        Favorite.stadiumTeam1 = team.strStadium.toString()
+        Favorite.imgTeam1 = team.strTeamBadge.toString()
+
+        oneTeam.setText("Team: "+Favorite.nameTeam1)
+        oneLeague.setText("League: "+Favorite.legueTeam1)
+        oneCountry.setText("Country: "+Favorite.countryTeam1)
+        oneStadium.setText("Stadium: "+Favorite.stadiumTeam1)
+        Picasso.get().load(Favorite.imgTeam1).into(imgOne)
+    }
+
+    override fun showDetailaway(data: List<TeamsItem>) {
+        val team: TeamsItem = data.get(0)
+        //assigment value to favorite
+        Favorite.nameTeam2 = team.strTeam.toString()
+        Favorite.legueTeam2 = team.strLeague.toString()
+        Favorite.countryTeam2 = team.strCountry.toString()
+        Favorite.stadiumTeam2 = team.strStadium.toString()
+        Favorite.imgTeam2 = team.strTeamBadge.toString()
+
+        twoTeam.setText("Team: "+Favorite.nameTeam2)
+        twoLeague.setText("League: "+Favorite.legueTeam2)
+        twoCountry.setText("Country: "+Favorite.countryTeam2)
+        twoStadium.setText("Stadium: "+Favorite.stadiumTeam2)
+        Picasso.get().load(Favorite.imgTeam2).into(imgTwo)
     }
 }
