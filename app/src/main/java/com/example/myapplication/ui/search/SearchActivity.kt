@@ -6,21 +6,29 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.football2.api.ApiRepository
+import com.example.football2.extensions.invisible
+import com.example.football2.extensions.visible
 import com.example.myapplication.R
 import com.example.myapplication.adapter.AdapterSearch
 import com.example.myapplication.helper.Config
 import com.example.myapplication.model.search.EventItem
 import com.example.myapplication.model.search.ResponseSearch
+import com.example.myapplication.presenter.SearchPresenter
 import com.example.myapplication.services.ApiClient
 import com.example.myapplication.services.ApiInterface
 import com.example.myapplication.ui.detail.DetailAllActivity
+import com.example.myapplication.view.SearchView
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_search.*
 import org.jetbrains.anko.intentFor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity(), SearchView{
+    //presenter
+    private lateinit var presenter: SearchPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,47 +37,32 @@ class SearchActivity : AppCompatActivity() {
 
         rv.layoutManager = LinearLayoutManager(this)
 
-        val apiInterface: ApiInterface = ApiClient.getClient().create(ApiInterface::class.java)
         btnCari.setOnClickListener {
-            getQuery(apiInterface, edQuery.text.toString())
+            val request = ApiRepository()
+            val gson = Gson()
+            presenter = SearchPresenter(this, request, gson)
+            presenter.getSearch(edQuery.text.toString())
         }
     }
 
-    fun getQuery(apiInterface: ApiInterface, query: String) {
-        loading.visibility = View.VISIBLE
-        val call: Call<ResponseSearch> = apiInterface.getSearch(query)
+    override fun showLoading() {
+        loading.visible()
+    }
 
-        call.enqueue(object : Callback<ResponseSearch> {
-            override fun onFailure(call: Call<ResponseSearch>, t: Throwable) {
-                Toast.makeText(this@SearchActivity, "error " + t.message, Toast.LENGTH_SHORT)
-            }
+    override fun hideLoading() {
+        loading.invisible()
+    }
 
-            override fun onResponse(
-                call: Call<ResponseSearch>,
-                response: Response<ResponseSearch>
-            ) {
-                loading.visibility = View.GONE
-                try {
-                    var items: ArrayList<EventItem>
-                    items =
-                        response.body()?.event?.filter { it?.strSport == "Soccer" } as ArrayList<EventItem>
-                    rv.adapter = AdapterSearch(this@SearchActivity, items) {
-                        startActivity(
-                            intentFor<DetailAllActivity>(
-                                Config.KEY_FOOTBALL to it.idEvent,
-                                Config.KEY_ID_HOME to it.idHomeTeam,
-                                Config.KEY_ID_WAY_TEAM to it.idAwayTeam
-                            )
-                        )
-                    }
-                } catch (err: Exception) {
-                    Log.e("Error", err.printStackTrace().toString())
-                    Toast.makeText(this@SearchActivity, "error " + err.message, Toast.LENGTH_SHORT)
-                }
-
-            }
-
-        })
+    override fun showTeamList(data: List<EventItem>) {
+        rv.adapter = AdapterSearch(this@SearchActivity, data) {
+            startActivity(
+                intentFor<DetailAllActivity>(
+                    Config.KEY_FOOTBALL to it.idEvent,
+                    Config.KEY_ID_HOME to it.idHomeTeam,
+                    Config.KEY_ID_WAY_TEAM to it.idAwayTeam
+                )
+            )
+        }
     }
 
 }

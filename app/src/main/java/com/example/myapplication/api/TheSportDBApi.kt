@@ -16,4 +16,8 @@ object TheSportDBApi {
     fun getPreviousMatch(idLeague: String?): String {
         return BuildConfig.BASE_URL + "api/v1/json/${BuildConfig.TSDB_API_KEY}" + "/eventspastleague.php?id=" + idLeague
     }
+
+    fun getSearch(query: String?): String {
+        return BuildConfig.BASE_URL + "api/v1/json/${BuildConfig.TSDB_API_KEY}" + "/searchevents.php?e=" + query
+    }
 }
