@@ -28,20 +28,23 @@ class SearchActivity : AppCompatActivity(), SearchView{
 
         rv.layoutManager = LinearLayoutManager(this)
 
+        val request = ApiRepository()
+        val gson = Gson()
+        presenter = SearchPresenter(this, request, gson)
+
         btnCari.setOnClickListener {
-            val request = ApiRepository()
-            val gson = Gson()
-            presenter = SearchPresenter(this, request, gson)
             presenter.getSearch(edQuery.text.toString())
         }
     }
 
     override fun showLoading() {
         loading.visible()
+        //flag.setText("load")
     }
 
     override fun hideLoading() {
         loading.invisible()
+        //flag.setText("loaded")
     }
 
     override fun showTeamList(data: List<EventItem>) {

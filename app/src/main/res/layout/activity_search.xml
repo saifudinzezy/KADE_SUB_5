@@ -6,6 +6,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".ui.search.SearchActivity">
+    <TextView
+        android:id="@+id/flag"
+        tools:text="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:layout_width="match_parent"
