@@ -9,6 +9,7 @@ import com.example.football2.extensions.visible
 import com.example.myapplication.R
 import com.example.myapplication.adapter.AdapterSearch
 import com.example.myapplication.helper.Config
+import com.example.myapplication.helper.EspressoIdlingResource
 import com.example.myapplication.model.search.EventItem
 import com.example.myapplication.presenter.SearchPresenter
 import com.example.myapplication.ui.detail.DetailAllActivity
@@ -33,6 +34,7 @@ class SearchActivity : AppCompatActivity(), SearchView{
         presenter = SearchPresenter(this, request, gson)
 
         btnCari.setOnClickListener {
+            EspressoIdlingResource.increment()
             presenter.getSearch(edQuery.text.toString())
         }
     }
@@ -48,6 +50,11 @@ class SearchActivity : AppCompatActivity(), SearchView{
     }
 
     override fun showTeamList(data: List<EventItem>) {
+        if (!EspressoIdlingResource.idlingresource.isIdleNow) {
+            //Memberitahukan bahwa tugas sudah selesai dijalankan
+            EspressoIdlingResource.decrement()
+        }
+
         rv.adapter = AdapterSearch(this@SearchActivity, data) {
             startActivity(
                 intentFor<DetailAllActivity>(

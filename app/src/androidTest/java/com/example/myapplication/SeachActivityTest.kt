@@ -28,31 +28,24 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
-class SeachActivityTest : SearchView {
-    private lateinit var presenter: SearchPresenter
+class SeachActivityTest {
 
     @get:Rule
     var activityRule = ActivityTestRule(SearchActivity::class.java)
 
     @Test
     fun testSearch() {
-
+        //https://www.dicoding.com/blog/menerapkan-espresso-idling-resource-pada-instrumentation-testing-tutorial-kelas-kade/
+        //https://android.jlelse.eu/integrate-espresso-idling-resources-in-your-app-to-build-flexible-ui-tests-c779e24f5057
         onView(withId(R.id.edQuery)).perform(ViewActions.clearText())
             .perform(ViewActions.typeText("Liverpool"), closeSoftKeyboard())
         onView(withId(R.id.btnCari)).perform(click())
 
-        val request = ApiRepository()
-        val gson = Gson()
-        presenter = SearchPresenter(this, request, gson)
-        //Memberitahukan Espresso bahwa aplikasi sedang sibuk
-        EspressoIdlingResource.increment()
-        presenter.getSearch("Liverpool")
-
-       /* onView(withId(R.id.rv))
+        onView(withId(R.id.rv))
             .check(matches(isDisplayed()))
         onView(withId(R.id.rv)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(10))
         onView(withId(R.id.rv)).perform(
-            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(10, click()))*/
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(10, click()))
     }
 
 
@@ -64,29 +57,5 @@ class SeachActivityTest : SearchView {
     @After
     fun tearDown() {
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.idlingresource)
-    }
-
-    override fun showLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun hideLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun showTeamList(data: List<EventItem>) {
-        if (!EspressoIdlingResource.idlingresource.isIdleNow) {
-            //Memberitahukan bahwa tugas sudah selesai dijalankan
-            EspressoIdlingResource.decrement()
-        }
-        /*swipeRefresh.isRefreshing = false
-        teams.clear()
-        teams.addAll(data)
-        adapter.notifyDataSetChanged()*/
-        onView(withId(R.id.rv))
-            .check(matches(isDisplayed()))
-        onView(withId(R.id.rv)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(10))
-        onView(withId(R.id.rv)).perform(
-            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(10, click()))
     }
 }
