@@ -34,6 +34,7 @@ class SearchActivity : AppCompatActivity(), SearchView{
         presenter = SearchPresenter(this, request, gson)
 
         btnCari.setOnClickListener {
+            //Memberitahukan Espresso bahwa aplikasi sedang sibuk
             EspressoIdlingResource.increment()
             presenter.getSearch(edQuery.text.toString())
         }
