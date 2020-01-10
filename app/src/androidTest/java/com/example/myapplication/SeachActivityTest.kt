@@ -37,6 +37,7 @@ class SeachActivityTest {
     fun testSearch() {
         //https://www.dicoding.com/blog/menerapkan-espresso-idling-resource-pada-instrumentation-testing-tutorial-kelas-kade/
         //https://android.jlelse.eu/integrate-espresso-idling-resources-in-your-app-to-build-flexible-ui-tests-c779e24f5057
+        //https://github.com/android/testing-samples/tree/master/ui/espresso/IdlingResourceSample
         onView(withId(R.id.edQuery)).perform(ViewActions.clearText())
             .perform(ViewActions.typeText("Liverpool"), closeSoftKeyboard())
         onView(withId(R.id.btnCari)).perform(click())
