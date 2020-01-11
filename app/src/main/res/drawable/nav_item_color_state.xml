@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/colorAccent" android:state_checked="true" />
-    <item android:color="@color/colorPrimaryDark" android:state_checked="false" />
-</selector>
-<!--    Berkas ini akan ditambahkan ke dalam BottomNavigationView
- untuk memberikan warna teks dan ikon yang berbeda ketika sebuah item sedang dipilih atau tidak.-->

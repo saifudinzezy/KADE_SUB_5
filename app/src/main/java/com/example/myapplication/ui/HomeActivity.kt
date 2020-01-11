@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.football2.extensions.invisible
 import com.example.myapplication.R
 import com.example.myapplication.adapter.AdapterFootball
 import com.example.myapplication.helper.Config
@@ -25,6 +26,8 @@ class HomeActivity : AppCompatActivity() {
         fab.setOnClickListener { view ->
             startActivity(intentFor<FavoriteActivity>())
         }
+
+        fab.invisible()
 
         val list = findViewById<RecyclerView>(R.id.club_list)
         initData()
