@@ -23,6 +23,8 @@ class HomeActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         setTitle("List Liga")
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         fab.setOnClickListener { view ->
             startActivity(intentFor<FavoriteActivity>())
         }

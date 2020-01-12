@@ -6,11 +6,12 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/football"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/football"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.klasemen.KlasemenActivity"></activity>
         <activity
             android:name=".ui.Dashboard"
             android:theme="@style/AppTheme.NoActionBar">
@@ -20,16 +21,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.favorite.FavoriteActivity" />
+        <activity
+            android:name=".ui.favorite.FavoriteActivity"
+            android:parentActivityName=".ui.Dashboard" />
         <activity
             android:name=".ui.HomeActivity"
-            android:label="@string/title_activity_home"
             android:parentActivityName=".ui.Dashboard"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity android:name=".ui.nextprev.NextPrevActivity" />
         <activity android:name=".ui.nextprev.PrevActivity" />
-        <activity android:name=".ui.search.SearchActivity" />
+        <activity
+            android:name=".ui.search.SearchActivity"
+            android:parentActivityName=".ui.Dashboard" />
         <activity android:name=".ui.detail.DetailAllActivity" />
         <activity
             android:name=".ui.detail.DetailActivity"

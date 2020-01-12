@@ -10,6 +10,7 @@ import com.example.myapplication.helper.Config
 import com.example.myapplication.model.ItemFootball
 import com.example.myapplication.model.LeaguesItem
 import com.example.myapplication.presenter.DetailLigaPresenter
+import com.example.myapplication.ui.klasemen.KlasemenActivity
 import com.example.myapplication.ui.nextprev.NextPrevActivity
 import com.example.myapplication.ui.nextprev.PrevActivity
 import com.example.myapplication.ui.search.SearchActivity
@@ -32,6 +33,7 @@ class DetailActivity : AppCompatActivity(), HomeView{
         fab.setOnClickListener { view ->
             startActivity(intentFor<SearchActivity>())
         }
+        fab.invisible()
 
         var football: ItemFootball = intent.getParcelableExtra(Config.KEY_FOOTBALL)
         supportActionBar?.setTitle(football.name)
@@ -43,6 +45,10 @@ class DetailActivity : AppCompatActivity(), HomeView{
 
         next.setOnClickListener {
             startActivity(intentFor<NextPrevActivity>(Config.KEY_FOOTBALL to football.id))
+        }
+
+        klasemen.setOnClickListener {
+            startActivity(intentFor<KlasemenActivity>(Config.KEY_FOOTBALL to football.id))
         }
 
         prev.setOnClickListener {

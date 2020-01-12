@@ -55,6 +55,13 @@
                     android:text="Previous Match" />
 
                 <Button
+                    android:id="@+id/klasemen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Klasemen Match" />
+
+                <Button
                     android:id="@+id/next"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

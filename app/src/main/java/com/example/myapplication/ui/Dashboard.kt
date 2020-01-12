@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
 import com.example.myapplication.ui.favorite.FavoriteActivity
+import com.example.myapplication.ui.search.SearchActivity
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import org.jetbrains.anko.intentFor
 
@@ -20,6 +21,11 @@ class Dashboard : AppCompatActivity() {
 
         liga.setOnClickListener {
             startActivity(intentFor<HomeActivity>())
+
+        }
+
+        search.setOnClickListener {
+            startActivity(intentFor<SearchActivity>())
 
         }
     }
