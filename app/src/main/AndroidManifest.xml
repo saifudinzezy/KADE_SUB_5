@@ -11,7 +11,10 @@
         android:roundIcon="@drawable/football"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.klasemen.KlasemenActivity"></activity>
+        <activity android:name=".ui.HomeFavoriteActivity"  android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ui.HomeSearchActivity"  android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ui.detail.DetailTimActivity" />
+        <activity android:name=".ui.klasemen.KlasemenActivity" />
         <activity
             android:name=".ui.Dashboard"
             android:theme="@style/AppTheme.NoActionBar">
@@ -24,14 +27,22 @@
         <activity
             android:name=".ui.favorite.FavoriteActivity"
             android:parentActivityName=".ui.Dashboard" />
+
+        <activity
+            android:name=".ui.favorite.FavoriteTimActivity"
+            android:parentActivityName=".ui.Dashboard" />
         <activity
             android:name=".ui.HomeActivity"
             android:parentActivityName=".ui.Dashboard"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.nextprev.NextPrevActivity" />
         <activity android:name=".ui.nextprev.PrevActivity" />
+        <activity android:name=".ui.tim.TimActivity" />
         <activity
             android:name=".ui.search.SearchActivity"
+            android:parentActivityName=".ui.Dashboard" />
+        <activity
+            android:name=".ui.search.SearchTimActivity"
             android:parentActivityName=".ui.Dashboard" />
         <activity android:name=".ui.detail.DetailAllActivity" />
         <activity

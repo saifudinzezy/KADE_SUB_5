@@ -14,6 +14,7 @@ import com.example.myapplication.ui.klasemen.KlasemenActivity
 import com.example.myapplication.ui.nextprev.NextPrevActivity
 import com.example.myapplication.ui.nextprev.PrevActivity
 import com.example.myapplication.ui.search.SearchActivity
+import com.example.myapplication.ui.tim.TimActivity
 import com.example.myapplication.view.HomeView
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
@@ -49,6 +50,10 @@ class DetailActivity : AppCompatActivity(), HomeView{
 
         klasemen.setOnClickListener {
             startActivity(intentFor<KlasemenActivity>(Config.KEY_FOOTBALL to football.id))
+        }
+
+        tim.setOnClickListener {
+            startActivity(intentFor<TimActivity>(Config.KEY_FOOTBALL to football.id))
         }
 
         prev.setOnClickListener {

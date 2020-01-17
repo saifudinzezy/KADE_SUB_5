@@ -1,13 +1,12 @@
 package com.dicoding.kotlinacademy.db
+//package com.example.myapplication.db
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import com.example.football2.db.Favorite
+import com.example.football2.db.FavoriteTim
 import org.jetbrains.anko.db.*
 
-/**
- * Created by root on 2/6/18.
- */
 class MyDatabaseOpenHelper(ctx: Context) :
     ManagedSQLiteOpenHelper(ctx, "FavoriteTeam.db", null, 1) {
     companion object {
@@ -52,11 +51,23 @@ class MyDatabaseOpenHelper(ctx: Context) :
             Favorite.STADIUM_TEAM_2 to TEXT,
             Favorite.NAME_TEAM_2 to TEXT
         )
+
+        db.createTable(
+            FavoriteTim.TABLE_FAVORITE_TIM, true,
+            FavoriteTim.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
+            FavoriteTim.TEAM_ID_TIM to TEXT + UNIQUE,
+            FavoriteTim.NAME_TEAM_TIM to TEXT,
+            FavoriteTim.LEGUE_TEAM_TIM to TEXT,
+            FavoriteTim.COUNTRY_TEAM_TIM to TEXT,
+            FavoriteTim.STADIUM_TEAM_TIM to TEXT,
+            FavoriteTim.IMG_TEAM_TIM to TEXT
+        )
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // Here you can upgrade tables, as usual
         db.dropTable(Favorite.TABLE_FAVORITE, true)
+        db.dropTable(FavoriteTim.TABLE_FAVORITE_TIM, true)
     }
 }
 

@@ -15,10 +15,8 @@ import com.example.football2.extensions.visible
 import com.example.myapplication.R
 import com.example.myapplication.helper.Config
 import com.example.myapplication.model.EventsItem
-import com.example.myapplication.model.team.ResponseTeam
 import com.example.myapplication.model.team.TeamsItem
 import com.example.myapplication.presenter.DetailAllPresenter
-import com.example.myapplication.services.DataRepository
 import com.example.myapplication.view.DetailAllView
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -28,9 +26,6 @@ import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class DetailAllActivity : AppCompatActivity(), DetailAllView{
     //presenter

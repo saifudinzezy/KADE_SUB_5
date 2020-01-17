@@ -52,21 +52,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Previous Match" />
+                    android:text="Previous" />
+
+                <Button
+                    android:id="@+id/tim"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Tim" />
+
 
                 <Button
                     android:id="@+id/klasemen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Klasemen Match" />
+                    android:text="Klasemen" />
 
                 <Button
                     android:id="@+id/next"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Next Match" />
+                    android:text="Next" />
 
             </LinearLayout>
 
